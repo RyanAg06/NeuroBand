@@ -1,7 +1,10 @@
 
 # Imports
-from threading import Thread
+from core.app import App
+
+# App
+app = App()
 
 # Main
 if __name__ == "__main__":
-    pass
+    app.start()
