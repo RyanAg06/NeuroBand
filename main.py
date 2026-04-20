@@ -2,7 +2,7 @@
 # Imports
 from core.app import App
 
-# App
+# Create App
 app = App()
 
 # Main
