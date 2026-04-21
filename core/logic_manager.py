@@ -15,8 +15,17 @@ class logic_manager:
     def set_frecuency(self, frecuency: int):
         self.__cardiac_frecuency = frecuency
 
-    def get_frecuency(self):
+    def get_frecuency(self) -> int:
         return self.__cardiac_frecuency
+    
+    def get_x(self) -> int:
+        return self.__x_gyroscope
+    
+    def get_y(self) -> int:
+        return self.__y_gyroscope
+    
+    def get_z(self) -> int:
+        return self.__z_gyroscope
 
     # increase frecuency
     def increase_frecuency(self, increase=1):

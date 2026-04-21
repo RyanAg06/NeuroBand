@@ -7,14 +7,14 @@ from pynput.keyboard import Key
 from core.logic_manager import logic_manager
 from threading import Thread
 
-# App
-class App:
+# Keys detector
+class keys_detector_manager:
 
     # Constructor
     def __init__(self):
-        self.__logic = logic_manager()
-        self.__running = False
+        self.logic = None
         self.__listener = None
+        self.__running = False
         self.__pressing = False
         self.__maximum_frecuency = 0
 
@@ -28,17 +28,19 @@ class App:
             
                 # Decrease frecuency if max-frec > 87
                 if self.__maximum_frecuency > 87:
-                    self.__logic.set_frecuency(self.__maximum_frecuency-1)
-                    self.__maximum_frecuency -= 1
-                    print(self.__logic.get_frecuency())
+                    self.logic.set_frecuency(self.__maximum_frecuency-1)
+                    self.__maximum_frecuency -= random()*4
+                    # print(self.logic.get_frecuency())
 
                 # Generate normal frecuency
                 else:
                     frecuency = 80 + int(random() * 9)
                     self.__maximum_frecuency = frecuency
-                    self.__logic.set_frecuency(frecuency)
-                    print(frecuency)
+                    self.logic.set_frecuency(frecuency)
+                    # print("Frecuencia: ",self.logic.get_frecuency())
 
+    def get_maximun(self):
+        return self.__maximum_frecuency
 
     # Start app
     def start(self):
@@ -48,9 +50,11 @@ class App:
             print(f"Ya esta corriendo")
             return
         
+        # Start
+        self.logic = logic_manager()
         self.__running = True
-        
-        # Generate normal cardiac frecuency
+
+        # Create Therad for simulate cardiac frecuency
         hilo = Thread(target=self.normal_frecuency, daemon=True)
         hilo.start()
         
@@ -59,7 +63,6 @@ class App:
             on_press=self.__on_press,
             on_release=self.__on_release)
         self.__listener.start()
-        self.__listener.join()
 
     # Stop app
     def stop(self):
@@ -87,20 +90,20 @@ class App:
 
         # Increse Frecuency Cardiac
         if char == 'a':
-            self.__logic.increase_frecuency()
-            self.__maximum_frecuency = self.__logic.get_frecuency()
+            self.logic.increase_frecuency()
+            self.__maximum_frecuency = self.logic.get_frecuency()
 
         # Increase Gyroscope
         if char == 's':
-            self.__logic.increase_gyroscope()
+            self.logic.increase_gyroscope()
 
         # Increase Both
         if char == "d":
-            self.__logic.increase_both()
+            self.logic.increase_both()
 
         # Toggle Alarm
         if char == "w":
-            self.__logic.toggle_alarm()
+            self.logic.toggle_alarm()
 
     # On_Release event
     def __on_release(self, key):

@@ -1,10 +1,10 @@
 
 # Imports
-from core.app import App
+from core.gui_manager import gui
 
-# Create App
-app = App()
+# Create GUI
+app = gui()
 
 # Main
 if __name__ == "__main__":
-    app.start()
+    app.create_gui()
