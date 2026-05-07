@@ -8,8 +8,6 @@ class logic_manager:
         self.__x_gyroscope = 0
         self.__y_gyroscope = 0
         self.__z_gyroscope = 0
-        self.__frecency_flag = False
-        self.__gyroscope_flag = False
         self.__alarm_flag = False
 
     def set_frecuency(self, frecuency: int):
@@ -46,10 +44,27 @@ class logic_manager:
     # Toggle alarm
     def toggle_alarm(self):
         self.__alarm_flag = not self.__alarm_flag
-        print(f"Estado alarma: {self.__alarm_flag}")
+        
+        if (self.__alarm_flag):
+            print("[!] Alarma activada")
+        else:
+            print("[-] Alarma desactivada")
 
     # Verification
-    def verification_flags(self):
-        if self.__frecency_flag and self.__gyroscope_flag:
+    def verification_flags(self, max_frecuency, x,y,z):
+
+        if (self.get_frecuency() >= max_frecuency and
+            self.get_x() >= x and
+            self.get_y() >= y and
+            self.get_z() >= z and
+            not self.__alarm_flag):
+
             self.__alarm_flag = True
             print("[!] Alarma Activada")
+        elif self.__alarm_flag and self.get_frecuency() <= 90:
+            self.__alarm_flag = False
+            print("[!] Alarma Desactivada")
+
+#  \____/\
+#  /\``/\
+# -byRyanAg...

@@ -4,7 +4,6 @@ import tkinter as tk
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-from core.logic_manager import logic_manager
 from core.keys_manager import keys_detector_manager
 
 # GUI Class
@@ -53,6 +52,10 @@ class gui:
         self.label_gyro = tk.Label(self.root, text="X: 0   Y: 0   Z: 0", font=("Arial", 14))
         self.label_gyro.pack(pady=10)
 
+        # Cardiac frecuency
+        self.label_frecuency = tk.Label(self.root, text="Frecuencia: 0", font=("Arial", 14))
+        self.label_frecuency.pack()
+
         # Button group
         frame_buttons = tk.Frame(self.root)
         frame_buttons.pack(pady=20)
@@ -76,24 +79,32 @@ class gui:
     # Update UI
     def __update_ui(self):
 
-        # Frecuencia
-        freq = self.logic.get_frecuency()
+        # Get value of cardiac frecuency
+        freq = int(self.logic.get_frecuency())
         self.frecuencias.append(freq)
 
         if len(self.frecuencias) > self.max_points:
             self.frecuencias.pop(0)
 
+        self.label_frecuency.config(text=f"Frecuencia: {freq}")
+
+        # Draw line in canvas
         self.line.set_data(range(len(self.frecuencias)), self.frecuencias)
         self.ax.set_xlim(0, self.max_points)
-
         self.canvas.draw()
 
-        # Giroscopio
+        # Get values of Gyroscope
         x = self.logic.get_x()
         y = self.logic.get_y()
         z = self.logic.get_z()
-
         self.label_gyro.config(text=f"X: {x}   Y: {y}   Z: {z}")
 
-        # Loop cada 500ms
+        # Activate alarm if values are critic
+        self.logic.verification_flags(max_frecuency=100, x=5, y=8, z=9)
+
+        # Loop each 500ms
         self.root.after(500, self.__update_ui)
+
+#  \____/\
+#  /\``/\
+# -byRyanAg...

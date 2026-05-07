@@ -28,16 +28,14 @@ class keys_detector_manager:
             
                 # Decrease frecuency if max-frec > 87
                 if self.__maximum_frecuency > 87:
-                    self.logic.set_frecuency(self.__maximum_frecuency-1)
-                    self.__maximum_frecuency -= random()*4
-                    # print(self.logic.get_frecuency())
+                    self.logic.set_frecuency(self.__maximum_frecuency - 1)
+                    self.__maximum_frecuency -= int(random() * 4)
 
                 # Generate normal frecuency
                 else:
                     frecuency = 80 + int(random() * 9)
                     self.__maximum_frecuency = frecuency
                     self.logic.set_frecuency(frecuency)
-                    # print("Frecuencia: ",self.logic.get_frecuency())
 
     def get_maximun(self):
         return self.__maximum_frecuency
@@ -83,11 +81,6 @@ class keys_detector_manager:
         char = getattr(key, "char", None)
         self.__pressing = True
 
-        # Stop key
-        if key == Key.esc:
-            print("App detenida")
-            self.stop()
-
         # Increse Frecuency Cardiac
         if char == 'a':
             self.logic.increase_frecuency()
@@ -108,3 +101,7 @@ class keys_detector_manager:
     # On_Release event
     def __on_release(self, key):
         self.__pressing = False
+
+#  \____/\
+#  /\``/\
+# -byRyanAg...
